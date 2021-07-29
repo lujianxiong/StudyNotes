@@ -1,0 +1,9 @@
+Vue网络应用
+
+这就涉及到axios，它的底层还是ajax，对ajax进行了封装。
+
+Vue结合网络请求库axios开发
+
+axios使用get或post方法即可发送请求，then中的回调方法会在请求成功或失败时触发。
+
+注意：axios回调函数中的this已经改变，无法访问到data中的数据。我们可以先把this保存起来，在回调函数中使用 已经保存的this即可。
