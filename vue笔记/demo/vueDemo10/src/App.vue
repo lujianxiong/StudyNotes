@@ -1,85 +1,47 @@
 <template>
   <div id="app">
-
-  <input type="text" v-model="todo" @keyup.enter="add" />
-
-  <button @click="add">增加</button>
-
-  <br><hr>
-
-  <h2>进行中</h2>
-  <ul>
-    <li v-for="(item,key) in list" v-if="!item.checked">
-      <input type="checkbox" v-model="item.checked" @change="saveList"/> {{key}}-{{item.title}}------- <button @click="del(key)">删除</button>
-    </li>
-  </ul>
-
-  <br><br><br>
-
-  <h2>已完成</h2>
-  <ul>
-    <li v-for="(item,key) in list" v-if="item.checked">
-      <input type="checkbox" v-model="item.checked" @change="saveList"/> {{key}}-{{item.title}}------- <button @click="del(key)">删除</button>
-    </li>
-  </ul>
     
+    <!-- 虽然h2这个样式是在子组件中定义的，但是在根组件引用同样会生效 -->
+    <!-- <h2>这是一个根组件</h2>
+
+    {{msg}} -->
+
+    <!-- 3、在模板中使用 -->
+    <v-home></v-home>
+
+    <hr>
+    <br>
+
+    <v-news></v-news>
+
+
+
   </div>
+
 </template>
 
 <script>
-/**
- * 定义清单的项为一个对象
- * 
- * 
- */
+// 1、引入组件
+import Home from './components/Home';
+import News from './components/News';
 
 import storage from './model/storage';
 
 export default {
   name: 'app',
+
+  // 2、挂载组件
+  components: {  //前面的组件名称不能和html标签名重复
+    'v-home':Home,
+    'v-news':News
+  },
+
   data () {
     return {
-      todo:'',
-      list:[
-        {
-          title:'heiheihei',
-          checked:true,
-        },
-        {
-          title:'hahaha',
-          checked:false,
-        },
-      ],
-
-    }
-  },
-  methods:{
-      add(){
-        this.list.push({
-          title:this.todo,
-          checked:false,
-        });  //todo前面要加this才行
-        this.todo = '';
-        // localStorage.setItem('list',JSON.stringify(this.list));
-        storage.set('list',this.list);
-      },
-      del(index){
-        this.list.splice(index,1);
-        // localStorage.setItem('list',JSON.stringify(this.list));
-        storage.set('list',this.list);
-      },
-      saveList(){
-        // localStorage.setItem('list',JSON.stringify(this.list));
-        storage.set('list',this.list);
-      }
-  },
-  mounted(){  //生命周期函数（vue页面刷新就会触发的方法）
-    // var list = JSON.parse(localStorage.getItem('list'));
-    var list = storage.get('list');
-    if(list){  //如果list存在，则赋给this.list
-      this.list = list;
+      msg:'你好，vue'
     }
   }
+
 }
 </script>
 
