@@ -1,54 +1,62 @@
 <template>
     <div id="home">
-        首页组件
+        
+        
+        <v-header :title="title" :homemsg="msg" :run="run" :home="this"></v-header>
 
-        <button @click="getData">请求数据</button>
+        首页组件
 
     </div>
 
 </template>
 
 <script>
-
-
-    import Axios from 'axios';
+/**
+ * 父组件给子组件传值：
+ *     1、父组件在调用子组件的时候 绑定动态属性
+ *         <v-header :title="title"></v-header>
+ *     2、在子组件里面通过props中接受父组件传过来的数据
+ *         props: ['title']
+ * 
+ * 父组件不仅可以给子组件传值还可以传方法：
+ * 
+ * 
+ * 父组件还可以将当前父组件的实例给传过去
+ * 
+ * 
+ * 除了上面props传递数据 props: ['title']，还可以通过props验证传过来的数据的合法性
+ *     props:{
+            'title':String,
+            'homemsg':String,
+            'run':Function,
+            'home':Object
+        }
+ * 
+ */ 
+    import Header from './Header.vue';
 
     export default{
         data(){
             return {
                 msg:'我是一个首页组件',
-                flag:true
+                title:'首页123'
             }
         },
-        methods: {
-            getData(){
-                var api = '';
-                axios.get(api).then((response) => {    //使用箭头函数可以避免this指向的问题
-                    console.log(response);
-                }).catch((error) => {
-                    console.log(error);
-                });
-                
-            }
+        components:{
+            'v-header':Header
         },
-        mounted(){  //生命周期函数
-            this.getData();
-
+        methods:{
+            run(data) {
+                alert('我是home组件的run方法，接收到子组件传的参数：'+data);
+            }
         }
+
     }
 
 </script>
 
 <style lang="scss" scoped>
 
-        h2{
-            color:red;
-        }
+
 
 </style>
-
-<!-- 让h2样式只在home页面生效：
-        第一种方式：在子组件中div给一个id，在style部分，给样式套上#id{}
-
-        第二种方式：给style标签添加一个属性scoped （scoped局部作用域）
--->
